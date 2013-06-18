@@ -19,4 +19,6 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency("resque", "~> 1.13")
   gem.add_development_dependency("minitest", "~> 5.0.4")
+  gem.add_development_dependency("rake")
+  gem.add_development_dependency("bundler")
 end
