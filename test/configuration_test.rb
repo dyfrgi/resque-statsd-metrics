@@ -1,6 +1,8 @@
 require 'test_helper'
 
 describe Resque::Plugins::StatsdMetrics::Configuration do
+  after { restore_default_config }
+
   subject { Resque::Plugins::StatsdMetrics.configuration }
 
   describe "when not initialized with a host and port" do
