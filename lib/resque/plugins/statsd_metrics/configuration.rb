@@ -22,11 +22,10 @@ module Resque
         def configuration
           @configuration ||= Configuration.new
         end
-      end
 
-      def self.configure
-        self.configuration ||= Configuration.new
-        yield configuration
+        def configure
+          yield configuration
+        end
       end
     end
   end
