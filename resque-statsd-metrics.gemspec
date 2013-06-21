@@ -18,6 +18,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_dependency("resque", "~> 1.13")
+  gem.add_dependency("statsd-ruby")
   gem.add_development_dependency("minitest", "~> 5.0.4")
   gem.add_development_dependency("rake")
   gem.add_development_dependency("bundler")
