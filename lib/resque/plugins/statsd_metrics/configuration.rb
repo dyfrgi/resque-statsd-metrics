@@ -5,11 +5,13 @@ module Resque
         attr_accessor \
           :hostname,
           :port,
-          :clientfactory
+          :clientfactory,
+          :prefix
 
         def initialize
           @hostname = "localhost"
           @port = 8125
+          @prefix = "resque.jobs"
         end
 
       end

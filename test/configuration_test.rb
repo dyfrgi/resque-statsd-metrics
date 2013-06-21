@@ -5,7 +5,7 @@ describe Resque::Plugins::StatsdMetrics::Configuration do
 
   subject { Resque::Plugins::StatsdMetrics.configuration }
 
-  describe "when not initialized with a host and port" do
+  describe "when not configured" do
     it "must use 'localhost' as the default hostname" do
       assert_equal "localhost", subject.hostname
     end
@@ -17,6 +17,15 @@ describe Resque::Plugins::StatsdMetrics::Configuration do
     it "must not define a clientfactory by default" do
       assert_nil subject.clientfactory
     end
+
+    it "must use 'resque.jobs' as a prefix" do
+      assert_equal "resque.jobs", subject.prefix
+    end
+  end
+
+  it "must allow configuring the prefix" do
+    Resque::Plugins::StatsdMetrics.configure { |c| c.prefix = "some.crazy.prefix" }
+    assert_equal "some.crazy.prefix", subject.prefix
   end
 
   describe "when initialized with a host and port" do
