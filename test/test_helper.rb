@@ -4,6 +4,7 @@ require 'minitest/pride'
 require 'mocha/setup'
 require 'bourne'
 require 'resque'
+require 'timecop'
 
 def restore_default_config
   Resque::Plugins::StatsdMetrics.configuration = nil
@@ -31,5 +32,22 @@ class BrokenJob
 
   def self.perform(*args)
     raise "b0rked"
+  end
+end
+
+class TimeTravelingJob
+  extend Resque::Plugins::StatsdMetrics
+
+  def self.before_perform_aaaaa
+    Timecop.freeze
+  end
+
+  def self.perform
+    Timecop.freeze(Time.now + 10)
+    true
+  end
+
+  def self.after_perform_aaaaa
+    Timecop.return
   end
 end

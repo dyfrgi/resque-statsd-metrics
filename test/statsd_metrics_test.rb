@@ -23,7 +23,7 @@ describe Resque::Plugins::StatsdMetrics do
 
     it "reports to statsd when it succeeds" do
       assert_statsd_received(@client, :increment, "resque.jobs.WorkingJob.success")
-      assert_statsd_received(@client, :increment, "resque.jobs.total.success")
+      assert_statsd_received(@client, :increment, "resque.jobs.all.success")
     end
   end
 
@@ -33,7 +33,17 @@ describe Resque::Plugins::StatsdMetrics do
 
     it "reports to statsd when it fails" do
       assert_statsd_received(@client, :increment, "resque.jobs.BrokenJob.failure")
-      assert_statsd_received(@client, :increment, "resque.jobs.total.failure")
+      assert_statsd_received(@client, :increment, "resque.jobs.all.failure")
+    end
+  end
+
+  describe "with a job that takes some time" do
+    subject { TimeTravelingJob }
+    before { perform_job(subject) }
+
+    it "reports the time taken to run perform" do
+      assert_statsd_received(@client, :timing, "resque.jobs.TimeTravelingJob.exec_time", 10000)
+      assert_statsd_received(@client, :timing, "resque.jobs.all.exec_time", 10000)
     end
   end
 end
