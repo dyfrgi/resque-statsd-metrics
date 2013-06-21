@@ -5,6 +5,9 @@ require 'mocha/setup'
 require 'bourne'
 require 'resque'
 require 'timecop'
+require 'mock_redis'
+
+Resque.redis = MockRedis.new
 
 def restore_default_config
   Resque::Plugins::StatsdMetrics.configuration = nil
@@ -26,15 +29,21 @@ def stub_statsd
   end
 end
 
-class WorkingJob
+class TestJob
   extend Resque::Plugins::StatsdMetrics
+
+  def self.queue
+    :testqueue
+  end
 
   def self.perform(*args)
     true
   end
 end
 
-class BrokenJob
+class WorkingJob < TestJob; end
+
+class BrokenJob < TestJob
   extend Resque::Plugins::StatsdMetrics
 
   def self.perform(*args)
@@ -42,7 +51,7 @@ class BrokenJob
   end
 end
 
-class TimeTravelingJob
+class TimeTravelingJob < TestJob
   extend Resque::Plugins::StatsdMetrics
 
   def self.before_perform_aaaaa

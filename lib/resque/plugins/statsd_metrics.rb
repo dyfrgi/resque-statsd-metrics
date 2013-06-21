@@ -19,6 +19,11 @@ module Resque
         Client.client.timing("#{prefix}.all.exec_time", exec_time)
       end
 
+      def after_enqueue_statsd(*args)
+        Client.client.increment("#{prefix}.#{self}.enqueued")
+        Client.client.increment("#{prefix}.all.enqueued")
+      end
+
       private
 
       def prefix

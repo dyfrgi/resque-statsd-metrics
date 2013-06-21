@@ -43,4 +43,13 @@ describe Resque::Plugins::StatsdMetrics do
       assert_statsd_received(:timing, "resque.jobs.all.exec_time", 10000)
     end
   end
+
+  describe "when a job is enqueued" do
+    subject { WorkingJob }
+    before { Resque.enqueue(subject, "ich bin ein Berliner") }
+
+    it "reports the enqueueing to statsd" do
+      assert_statsd_received(:increment, "resque.jobs.WorkingJob.enqueued")
+    end
+  end
 end
