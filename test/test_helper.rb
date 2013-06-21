@@ -15,8 +15,15 @@ def perform_job(klass, *args)
   resque_job.perform
 end
 
-def assert_statsd_received(client, method, *args)
-  assert_received(client, method) { |e| e.with(*args) }
+def assert_statsd_received(method, *args)
+  assert_received(@client, method) { |e| e.with(*args) }
+end
+
+def stub_statsd
+  @client ||= stub_everything
+  Resque::Plugins::StatsdMetrics.configure do |c|
+    c.clientfactory = -> { @client }
+  end
 end
 
 class WorkingJob
