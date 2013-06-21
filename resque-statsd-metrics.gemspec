@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
   gem.version       = Resque::Plugins::StatsdMetrics::VERSION
   gem.authors       = ["Michael Leuchtenburg"]
   gem.email         = ["michael@slashhome.org"]
-  gem.description   = %q{A Resque plugin that sends job metrics (success, failure, queue, dequeue, run time) to statsd}
+  gem.description   = %q{A Resque plugin that sends job metrics (success, failure, enqueue, run time) to statsd}
   gem.summary       = %q{Record Resque job metrics in statsd}
   gem.homepage      = ""
 
