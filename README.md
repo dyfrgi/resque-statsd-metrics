@@ -29,7 +29,7 @@ In your Resque job class, include this line:
 You'll need to tell the library where to find Statsd or it will use the one on
 localhost. You can do this in two different ways.
 
-Set the hostname and post:
+Set the hostname and port:
     Resque::Plugins::StatsdMetrics.configure do |c|
         c.hostname = "mystatsdserver.example.com"
         c.port = 8125
