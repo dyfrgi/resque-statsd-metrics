@@ -10,7 +10,7 @@ require 'mock_redis'
 Resque.redis = MockRedis.new
 
 def restore_default_config
-  Resque::Plugins::StatsdMetrics.configuration = nil
+  Resque::Plugins::StatsdMetrics.instance_variable_set(:@configuration, nil)
 end
 
 def perform_job(klass, *args)
