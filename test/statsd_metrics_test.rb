@@ -7,6 +7,10 @@ describe Resque::Plugins::StatsdMetrics do
     stub_statsd
   end
 
+  it "passes Resque::Plugin.lint" do
+    Resque::Plugin.lint(Resque::Plugins::StatsdMetrics)
+  end
+
   it "uses any configured prefix" do
     @prefix = "prefixes.are.awesome"
     Resque::Plugins::StatsdMetrics.configure { |c| c.prefix = @prefix }
